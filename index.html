@@ -864,7 +864,7 @@ h2.sec-title.on-green{color:var(--sunshine)}
       <div class="art-chip c3" aria-hidden="true">🥦</div>
       <div class="art-chip c4" aria-hidden="true">🥕</div>
       <div class="art-chip c5" aria-hidden="true">🥬</div>
-      <div class="art-tag">매주 서로 다른 재료 5종</div>
+      <div class="art-tag">매일 다른 재료 <span id="heroVariety">5</span>종</div>
     </div>
   </div>
 </section>
@@ -1014,7 +1014,7 @@ h2.sec-title.on-green{color:var(--sunshine)}
             <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0111 6h1a5 5 0 015 5v9"/><path d="M12 20V9"/><path d="M17 4c0 2-1.4 3.5-3.4 3.5C13.6 5.6 15 4 17 4z"/></svg>
           </div>
           <div>
-            <div class="spec-t">한 주에 서로 다른 재료 <span id="boxVariety">5</span>종</div>
+            <div class="spec-t">매일 다른 재료 <span id="boxVariety">5</span>종</div>
             <div class="spec-d">같은 재료가 두 번 들어가지 않도록 짭니다. 다양하게 먹는 것이 가장 확실한 균형이니까요.</div>
           </div>
         </div>
@@ -1418,9 +1418,10 @@ function renderBox(t){
   var cfg = PLANS[plan];
   var name = $('boxName'), lid = $('boxLid'), price = $('boxPrice'), per = $('boxPerMeal');
   if(name)  name.textContent  = '밸런스 박스 · ' + cfg.label;
-  var lede = $('boxLede'), variety = $('boxVariety'), tlEat = $('tlEat');
+  var lede = $('boxLede'), variety = $('boxVariety'), tlEat = $('tlEat'), heroV = $('heroVariety');
   if(lede)    lede.textContent    = (plan === 7 ? '일곱' : '다섯');
   if(variety) variety.textContent = String(plan);
+  if(heroV)   heroV.textContent   = String(plan);
   if(tlEat)   tlEat.textContent   = (plan === 7 ? 'Mon – Sun' : 'Mon – Fri');
   if(price) price.textContent = '₩' + cfg.price.toLocaleString();
   if(per)   per.textContent   = '/ 주 · 한 끼 ' + cfg.perMeal.toLocaleString() + '원';
