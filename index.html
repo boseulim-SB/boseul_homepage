@@ -298,7 +298,9 @@ h2.sec-title.on-green{color:var(--sunshine)}
 .tl-desc{font-size:var(--text-xs);color:var(--slate);line-height:1.6}
 
 /* 박스 안 메뉴 미리보기 */
-.menu-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:clamp(32px,4vw,48px)}
+.menu-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1000px){.menu-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.menu-strip{grid-template-columns:1fr}}
 .mini{
   background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);
   overflow:hidden;box-shadow:var(--sh-sm);
@@ -306,13 +308,24 @@ h2.sec-title.on-green{color:var(--sunshine)}
 }
 .mini:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
 .mini-top{
-  height:104px;display:flex;align-items:center;justify-content:center;font-size:42px;position:relative;
+  height:96px;display:flex;align-items:center;justify-content:center;font-size:42px;position:relative;
   background:linear-gradient(135deg,#E9F2E0,#C6DDAF);
 }
 .mini-top .badge{position:absolute;top:10px;left:10px}
 .mini-body{padding:14px 16px}
-.mini-n{font-weight:600;font-size:var(--text-sm);color:var(--ink);margin-bottom:4px}
-.mini-s{font-size:var(--text-xs);color:var(--slate)}
+.mini-n{font-weight:700;font-size:var(--text-sm);color:var(--ink);margin-bottom:3px;line-height:1.4;word-break:keep-all}
+.mini-w{font-size:11px;color:var(--slate);margin-bottom:10px}
+.mini-nut{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.mini-nut li{
+  font-family:var(--en);font-size:11px;font-weight:600;color:var(--char);
+  background:var(--paper);border-radius:var(--r-xs);padding:3px 8px;
+}
+.mini-nut li b{font-weight:800;color:var(--vital)}
+.menu-head{margin-top:clamp(40px,5vw,64px);margin-bottom:20px}
+.menu-title{font-size:var(--text-2xl);color:var(--ink);letter-spacing:-.02em;margin-bottom:8px}
+.menu-sub{font-size:var(--text-sm);color:var(--char);max-width:56ch}
+.menu-foot{margin-top:16px;font-size:var(--text-xs);color:var(--slate);line-height:1.7}
+.menu-foot b{color:var(--char);font-weight:600}
 
 @media(max-width:880px){
   .box-grid{grid-template-columns:1fr}
@@ -346,7 +359,6 @@ h2.sec-title.on-green{color:var(--sunshine)}
 .sec-green .mini:hover{box-shadow:0 10px 28px rgba(0,0,0,.22)}
 .sec-green .mini-top{background:linear-gradient(135deg,rgba(253,255,230,.16),rgba(132,186,69,.26))}
 .sec-green .mini-n{color:var(--sunshine)}
-.sec-green .mini-s{color:rgba(253,255,230,.66)}
 .sec-green .badge-tint{background:rgba(253,255,230,.16);color:var(--sunshine)}
 .sec-green .badge-seed{background:var(--seed);color:#0C3D14}
 .sec-green .badge-solid{background:var(--sunshine);color:var(--vital)}
@@ -1013,25 +1025,65 @@ h2.sec-title.on-green{color:var(--sunshine)}
       </div>
     </div>
 
-    <!-- 박스 안 메뉴 -->
+    <!-- 박스 안 메뉴 — 실제 제품 (영양성분: 사내 상품 정보제공 고시자료 기준) -->
+    <div class="menu-head">
+      <div class="eyebrow">In the Box</div>
+      <h3 class="menu-title">이번 주 박스에 담기는 메뉴</h3>
+      <p class="menu-sub">모두 ㈜스윗밸런스랩이 직접 만드는 즉석섭취식품입니다. 포장 뒷면에 적힌 것과 같은 숫자예요.</p>
+    </div>
     <div class="menu-strip">
       <div class="mini">
-        <div class="mini-top">🥗<span class="badge badge-solid">BEST</span></div>
-        <div class="mini-body"><div class="mini-n">아보카도 콥샐러드</div><div class="mini-s">420kcal · 단백질 23g · 식이섬유 8g</div></div>
+        <div class="mini-top">🍤<span class="badge badge-solid">BEST</span></div>
+        <div class="mini-body">
+          <div class="mini-n">귀리보리 쉬림프 온샐러드</div>
+          <div class="mini-w">310g · 샐러드</div>
+          <ul class="mini-nut"><li><b>365</b>kcal</li><li>단백질 <b>15</b>g</li><li>당류 <b>7</b>g</li></ul>
+        </div>
       </div>
       <div class="mini">
-        <div class="mini-top">🌯<span class="badge badge-tint">NEW</span></div>
-        <div class="mini-body"><div class="mini-n">멕시칸 콘 치킨랩</div><div class="mini-s">430kcal · 단백질 28g · 식이섬유 7g</div></div>
+        <div class="mini-top">🌯<span class="badge badge-seed">단백질 26g</span></div>
+        <div class="mini-body">
+          <div class="mini-n">단백충전 치킨타코</div>
+          <div class="mini-w">230g · 랩 · 타코</div>
+          <ul class="mini-nut"><li><b>295</b>kcal</li><li>단백질 <b>26</b>g</li><li>당류 <b>2</b>g</li></ul>
+        </div>
       </div>
       <div class="mini">
-        <div class="mini-top">🥗</div>
-        <div class="mini-body"><div class="mini-n">브로콜리 두부 샐러드</div><div class="mini-s">300kcal · 단백질 22g · 식이섬유 9g</div></div>
+        <div class="mini-top">🌶️<span class="badge badge-tint">가장 가볍게</span></div>
+        <div class="mini-body">
+          <div class="mini-n">핫치킨 분짜 샐러드</div>
+          <div class="mini-w">160g · 샐러드</div>
+          <ul class="mini-nut"><li><b>130</b>kcal</li><li>단백질 <b>6</b>g</li><li>당류 <b>12</b>g</li></ul>
+        </div>
       </div>
       <div class="mini">
-        <div class="mini-top">🌯</div>
-        <div class="mini-body"><div class="mini-n">고구마 닭가슴살랩</div><div class="mini-s">420kcal · 단백질 30g · 식이섬유 6g</div></div>
+        <div class="mini-top">🌿</div>
+        <div class="mini-body">
+          <div class="mini-n">바질페스토 파스타 샐러드</div>
+          <div class="mini-w">160g · 샐러드</div>
+          <ul class="mini-nut"><li><b>255</b>kcal</li><li>단백질 <b>6</b>g</li><li>당류 <b>5</b>g</li></ul>
+        </div>
+      </div>
+      <div class="mini">
+        <div class="mini-top">🍗</div>
+        <div class="mini-body">
+          <div class="mini-n">닭가슴살 파스타 샐러드</div>
+          <div class="mini-w">160g · 샐러드</div>
+          <ul class="mini-nut"><li><b>190</b>kcal</li><li>단백질 <b>7</b>g</li><li>당류 <b>12</b>g</li></ul>
+        </div>
+      </div>
+      <div class="mini">
+        <div class="mini-top">🫔</div>
+        <div class="mini-body">
+          <div class="mini-n">풀드포크 &amp; 나쵸 멕시칸 브리또볼</div>
+          <div class="mini-w">280g · 랩 · 볼</div>
+          <ul class="mini-nut"><li><b>530</b>kcal</li><li>단백질 <b>20</b>g</li><li>당류 <b>5</b>g</li></ul>
+        </div>
       </div>
     </div>
+    <p class="menu-foot">
+      숫자는 제품별 <b>상품 정보제공 고시자료</b>의 총 내용량 기준 값입니다. 메뉴는 시즌에 따라 바뀔 수 있어요.
+    </p>
   </div>
 </section>
 
