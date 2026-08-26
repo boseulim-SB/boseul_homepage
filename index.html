@@ -247,10 +247,12 @@ h2.sec-title.on-green{color:var(--sunshine)}
 .box-name{font-size:var(--text-2xl);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.3}
 .box-sub{font-size:var(--text-sm);color:var(--slate);margin-top:4px}
 .box-lid{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+  display:grid;grid-template-columns:repeat(var(--lid,5),1fr);gap:10px;
   background:var(--paper);border:1px dashed rgba(0,97,78,.22);
   border-radius:var(--r-lg);padding:16px 14px;margin-bottom:20px;position:relative;
 }
+.box-lid[data-plan="5"]{--lid:5}
+.box-lid[data-plan="7"]{--lid:7}
 .lid-cell{
   background:var(--white);border-radius:var(--r-md);aspect-ratio:1/1;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
@@ -365,11 +367,13 @@ h2.sec-title.on-green{color:var(--sunshine)}
    ============================================================ */
 .sec-roulette{
   background:
-    radial-gradient(680px 420px at 12% 0%,rgba(132,186,69,.13),transparent 62%),
-    radial-gradient(560px 400px at 92% 82%,rgba(0,97,78,.09),transparent 60%),
-    var(--sunshine);
+    radial-gradient(720px 460px at 10% -6%,rgba(132,186,69,.20),transparent 62%),
+    radial-gradient(620px 440px at 94% 88%,rgba(253,255,230,.09),transparent 60%),
+    var(--vital);
   position:relative;
 }
+/* 주인공 카드는 딥그린 위에 흰 라이트박스처럼 */
+.sec-roulette .cal{box-shadow:0 26px 60px rgba(0,0,0,.28)}
 .roul-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,36px)}
 
 /* --- 캘린더 카드 --- */
@@ -381,7 +385,24 @@ h2.sec-title.on-green{color:var(--sunshine)}
 .cal-title{display:flex;align-items:center;gap:10px;font-weight:700;font-size:var(--text-xl);color:var(--ink);letter-spacing:-.02em}
 .cal-hint{font-size:var(--text-sm);color:var(--slate)}
 
-.days{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+/* 요일 수 선택 (주 5일 / 주 7일) */
+.plan-switch{
+  display:inline-flex;background:rgba(0,97,78,.07);border-radius:var(--r-pill);
+  padding:4px;gap:2px;
+}
+.plan-opt{
+  display:flex;align-items:baseline;gap:6px;padding:8px 16px;border-radius:var(--r-pill);
+  font-size:var(--text-sm);font-weight:600;color:var(--slate);white-space:nowrap;
+  transition:background var(--base) var(--ease-out-soft),color var(--base) var(--ease-out-soft);
+}
+.plan-opt span{font-family:var(--en);font-size:11px;font-weight:600;opacity:.75}
+.plan-opt:hover{color:var(--vital)}
+.plan-opt.is-on{background:var(--vital);color:var(--sunshine);box-shadow:var(--sh-sm)}
+.plan-opt.is-on span{opacity:.7}
+
+.days{display:grid;grid-template-columns:repeat(var(--cols,5),1fr);gap:12px}
+.days[data-plan="5"]{--cols:5}
+.days[data-plan="7"]{--cols:7}
 .day{
   position:relative;background:var(--paper);border:1.5px dashed rgba(0,97,78,.22);
   border-radius:var(--r-lg);padding:14px 10px 16px;text-align:center;
@@ -397,6 +418,8 @@ h2.sec-title.on-green{color:var(--sunshine)}
   font-family:var(--en);font-size:11px;font-weight:800;letter-spacing:.12em;
   color:var(--slate);text-transform:uppercase;
 }
+.day.weekend .dow{color:var(--seed)}
+.day.weekend .dow-kr{color:var(--vital)}
 .day .dow-kr{font-size:var(--text-sm);font-weight:700;color:var(--char);margin-top:-4px}
 .day .plus{
   width:40px;height:40px;border-radius:50%;background:rgba(0,97,78,.08);
@@ -441,12 +464,14 @@ h2.sec-title.on-green{color:var(--sunshine)}
 .cal-mascot{position:absolute;right:14px;bottom:10px;width:88px;opacity:.5;pointer-events:none}
 @media(max-width:1080px){.cal-mascot{display:none}}
 
+@media(max-width:1140px){ .days[data-plan="7"]{--cols:4} }
+@media(max-width:900px){ .days[data-plan]{--cols:3} }
 @media(max-width:820px){
-  .days{grid-template-columns:repeat(2,1fr);gap:10px}
+  .days[data-plan]{--cols:2;gap:10px}
   .day{min-height:132px;padding:12px 8px 14px}
   .day.filled .veg{font-size:34px}
 }
-@media(max-width:340px){.days{grid-template-columns:1fr}}
+@media(max-width:340px){ .days[data-plan]{--cols:1} }
 
 /* ============================================================
    작업대 (오버레이) — 룰렛 → 재료 → 요리 → 선택
@@ -622,23 +647,24 @@ h2.sec-title.on-green{color:var(--sunshine)}
 
 /* --- 주간 리포트 --- */
 .report{
-  margin-top:20px;background:var(--vital);color:var(--sunshine);
+  margin-top:20px;background:var(--sunshine);color:var(--ink);
+  border:1px solid rgba(253,255,230,.5);
   border-radius:var(--r-2xl);padding:clamp(24px,3.4vw,40px);position:relative;overflow:hidden;
-  box-shadow:var(--sh-brand);animation:stageIn var(--slow) var(--ease-out-soft);
+  box-shadow:0 26px 60px rgba(0,0,0,.26);animation:stageIn var(--slow) var(--ease-out-soft);
 }
 .report::before{
   content:"";position:absolute;top:-90px;left:-70px;width:280px;height:280px;
-  border-radius:50%;background:rgba(132,186,69,.16);
+  border-radius:50%;background:rgba(132,186,69,.20);
 }
 .report-grid{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
-.report h3{font-size:var(--text-2xl);color:var(--sunshine);margin-bottom:8px;letter-spacing:-.02em}
-.report p.rp{color:rgba(253,255,230,.76);font-size:var(--text-sm);margin-bottom:20px;line-height:1.7}
+.report h3{font-size:var(--text-2xl);color:var(--vital);margin-bottom:8px;letter-spacing:-.02em}
+.report p.rp{color:var(--char);font-size:var(--text-sm);margin-bottom:20px;line-height:1.7}
 .report-stats{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px}
-.rs .v{font-family:var(--en);font-weight:800;font-size:var(--text-2xl);letter-spacing:-.02em;line-height:1.1;color:var(--sunshine)}
-.rs .k{font-size:11px;color:rgba(253,255,230,.6)}
+.rs .v{font-family:var(--en);font-weight:800;font-size:var(--text-2xl);letter-spacing:-.02em;line-height:1.1;color:var(--vital)}
+.rs .k{font-size:11px;color:var(--slate)}
 .report-vegs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
 .report-vegs span{
-  width:42px;height:42px;border-radius:50%;background:rgba(253,255,230,.14);
+  width:42px;height:42px;border-radius:50%;background:rgba(0,97,78,.09);
   display:flex;align-items:center;justify-content:center;font-size:22px;
 }
 .report-mascot{justify-self:center;width:min(190px,42vw)}
@@ -664,6 +690,10 @@ h2.sec-title.on-green{color:var(--sunshine)}
   background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);
   padding:20px;box-shadow:var(--sh-xs);position:relative;
 }
+.sec-green .how-step{background:rgba(253,255,230,.07);border-color:rgba(253,255,230,.16);box-shadow:none}
+.sec-green .how-n{background:var(--sunshine);color:var(--vital)}
+.sec-green .how-t{color:var(--sunshine)}
+.sec-green .how-d{color:rgba(253,255,230,.7)}
 .how-n{
   font-family:var(--en);font-weight:800;font-size:var(--text-xs);letter-spacing:.1em;
   color:var(--sunshine);background:var(--vital);width:26px;height:26px;border-radius:50%;
@@ -770,7 +800,7 @@ h2.sec-title.on-green{color:var(--sunshine)}
         <a class="btn btn-secondary btn-lg" href="#box">밸런스 박스 보기</a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="v">5끼</div><div class="k">한 주에 도착하는 식사</div></div>
+        <div class="hero-stat"><div class="v">5 · 7끼</div><div class="k">평일만, 또는 주말까지</div></div>
         <div class="hero-stat"><div class="v">06:00</div><div class="k">월요일 새벽 문 앞</div></div>
         <div class="hero-stat"><div class="v">100%</div><div class="k">전 메뉴 영양성분 공개</div></div>
       </div>
@@ -799,150 +829,16 @@ h2.sec-title.on-green{color:var(--sunshine)}
   </div>
 </section>
 
-<!-- ══════════════ 대표 제품 — 밸런스 박스 (딥그린) ══════════════ -->
-<section class="sec sec-green" id="box">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow on-green">Signature · 정기구독</div>
-      <h2 class="sec-title on-green">밸런스 박스</h2>
-      <p class="lede on-green">
-        고르지 않아도 도착하는 균형. 목요일 밤까지만 정해두면,
-        월요일 새벽에 한 주치 다섯 끼가 문 앞에 놓입니다.
-      </p>
-    </div>
-
-    <div class="box-grid">
-      <div class="box-card">
-        <div class="box-top">
-          <div>
-            <div class="box-name">밸런스 박스 · 주 5회</div>
-            <div class="box-sub">샐러드 · 또띠아랩 자유 구성</div>
-          </div>
-          <span class="badge badge-seed">BEST</span>
-        </div>
-
-        <div class="box-lid" aria-label="한 주 구성 미리보기">
-          <div class="lid-cell">🥗<span class="d">MON</span></div>
-          <div class="lid-cell">🌯<span class="d">TUE</span></div>
-          <div class="lid-cell">🥗<span class="d">WED</span></div>
-          <div class="lid-cell">🥗<span class="d">THU</span></div>
-          <div class="lid-cell">🌯<span class="d">FRI</span></div>
-        </div>
-
-        <div class="box-price">
-          <span class="p">₩42,900</span><span class="u">/ 주 · 한 끼 8,580원</span>
-        </div>
-        <p class="box-note">언제든 일시정지·해지 · 첫 주 무료 배송</p>
-
-        <div class="box-actions">
-          <a class="btn btn-on-green" href="#roulette">이번 주 구성 짜기</a>
-          <a class="btn btn-outline-green" href="#roulette">메뉴 전체 보기</a>
-        </div>
-      </div>
-
-      <div class="spec-list">
-        <div class="spec">
-          <div class="spec-ico">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
-          </div>
-          <div>
-            <div class="spec-t">월요일 새벽 6시 도착</div>
-            <div class="spec-d">주말에 손질하고 새벽에 실어 보냅니다. 출근 전 냉장고에 넣어두시면 금요일까지 그대로예요.</div>
-          </div>
-        </div>
-        <div class="spec">
-          <div class="spec-ico">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M9.5 15.5l1.8 1.8 3.4-3.6"/></svg>
-          </div>
-          <div>
-            <div class="spec-t">목요일 밤 11시까지 수정</div>
-            <div class="spec-d">마음이 바뀌면 그때까지 몇 번이든 바꿀 수 있어요. 이번 주가 바쁘면 한 주 쉬어가도 됩니다.</div>
-          </div>
-        </div>
-        <div class="spec">
-          <div class="spec-ico">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.4-7 10-7 10z"/></svg>
-          </div>
-          <div>
-            <div class="spec-t">칼로리 · 단백질 · 식이섬유 전량 공개</div>
-            <div class="spec-d">"건강한"이라고 쓰는 대신 숫자를 적습니다. 포장 뒷면과 홈페이지 수치가 같아요.</div>
-          </div>
-        </div>
-        <div class="spec">
-          <div class="spec-ico">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0111 6h1a5 5 0 015 5v9"/><path d="M12 20V9"/><path d="M17 4c0 2-1.4 3.5-3.4 3.5C13.6 5.6 15 4 17 4z"/></svg>
-          </div>
-          <div>
-            <div class="spec-t">한 주에 서로 다른 채소 5종</div>
-            <div class="spec-d">같은 채소가 두 번 들어가지 않도록 짭니다. 다양하게 먹는 것이 가장 확실한 균형이니까요.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 배송 리듬 -->
-    <div class="timeline">
-      <div class="sub-eyebrow eyebrow on-green" style="margin-bottom:20px">Delivery Rhythm</div>
-      <div class="tl-track">
-        <div class="tl-step is-now">
-          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg></div>
-          <div class="tl-when">Thu 23:00</div>
-          <div class="tl-what">구성 마감</div>
-          <div class="tl-desc">그때까지 자유롭게 수정</div>
-        </div>
-        <div class="tl-step">
-          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 20V10.5a5.5 5.5 0 0111 0V20"/><path d="M12 5V3"/></svg></div>
-          <div class="tl-when">Fri – Sun</div>
-          <div class="tl-what">소싱 · 조리</div>
-          <div class="tl-desc">산지에서 받아 새벽에 손질</div>
-        </div>
-        <div class="tl-step">
-          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></div>
-          <div class="tl-when">Mon 06:00</div>
-          <div class="tl-what">문 앞 도착</div>
-          <div class="tl-desc">출근 전 냉장고로</div>
-        </div>
-        <div class="tl-step">
-          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5z"/><path d="M5 11h14"/><path d="M9 7.5v0M9 15v0"/></svg></div>
-          <div class="tl-when">Mon – Fri</div>
-          <div class="tl-what">꺼내서 바로</div>
-          <div class="tl-desc">데울 것만 3분, 나머지는 그대로</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 박스 안 메뉴 -->
-    <div class="menu-strip">
-      <div class="mini">
-        <div class="mini-top">🥗<span class="badge badge-solid">BEST</span></div>
-        <div class="mini-body"><div class="mini-n">아보카도 콥샐러드</div><div class="mini-s">420kcal · 단백질 23g · 식이섬유 8g</div></div>
-      </div>
-      <div class="mini">
-        <div class="mini-top">🌯<span class="badge badge-tint">NEW</span></div>
-        <div class="mini-body"><div class="mini-n">멕시칸 콘 치킨랩</div><div class="mini-s">430kcal · 단백질 28g · 식이섬유 7g</div></div>
-      </div>
-      <div class="mini">
-        <div class="mini-top">🥗</div>
-        <div class="mini-body"><div class="mini-n">브로콜리 두부 샐러드</div><div class="mini-s">300kcal · 단백질 22g · 식이섬유 9g</div></div>
-      </div>
-      <div class="mini">
-        <div class="mini-top">🌯</div>
-        <div class="mini-body"><div class="mini-n">고구마 닭가슴살랩</div><div class="mini-s">420kcal · 단백질 30g · 식이섬유 6g</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════ ⭐ 주인공 — 이번 주 채소 룰렛 캘린더 (크림) ══════════════ -->
-<section class="sec sec-roulette" id="roulette">
+<!-- ══════════════ ⭐ 주인공 — 이번 주 채소 룰렛 캘린더 (딥그린 — 주인공) ══════════════ -->
+<section class="sec sec-green sec-roulette" id="roulette">
   <div class="wrap">
     <div class="roul-head">
       <div class="sec-head" style="margin-bottom:0">
-        <div class="eyebrow">Weekly Veggie Roulette</div>
-        <h2 class="sec-title">이번 주 채소 룰렛 캘린더</h2>
-        <p class="lede">
+        <div class="eyebrow on-green">Weekly Veggie Roulette</div>
+        <h2 class="sec-title on-green">이번 주 채소 룰렛 캘린더</h2>
+        <p class="lede on-green">
           요일 칸을 누르면 오늘의 채소가 뽑히고, 주방이 뚝딱뚝딱 움직입니다.
-          마음에 안 들면 다시 돌리면 돼요. 다섯 칸을 채우면 그대로 한 주 식단이 됩니다.
+          마음에 안 들면 다시 돌리면 돼요. 요일 칸을 다 채우면 그대로 한 주 식단이 됩니다.
         </p>
       </div>
     </div>
@@ -954,10 +850,14 @@ h2.sec-title.on-green{color:var(--sunshine)}
           <svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--vital)"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
           내 한 주 채우기
         </div>
-        <div class="cal-hint">같은 채소는 한 주에 두 번 나오지 않아요 🌿</div>
+        <div class="plan-switch" role="group" aria-label="배송 일수 선택">
+          <button type="button" class="plan-opt is-on" data-plan="5">주 5일 <span>MON–FRI</span></button>
+          <button type="button" class="plan-opt" data-plan="7">주 7일 <span>MON–SUN</span></button>
+        </div>
       </div>
+      <p class="cal-hint" style="margin:-8px 0 16px">같은 채소는 한 주에 두 번 나오지 않아요 🌿 주말까지 챙기시려면 <b style="color:var(--vital)">주 7일</b>을 골라주세요.</p>
 
-      <div class="days" id="days"></div>
+      <div class="days" id="days" data-plan="5"></div>
 
       <div class="totals">
         <div class="tot"><span class="v" id="tCount">0/5</span><span class="k">채운 날</span></div>
@@ -995,6 +895,140 @@ h2.sec-title.on-green{color:var(--sunshine)}
         <div class="how-n">3</div>
         <div class="how-t">샐러드와 또띠아랩 중 고르세요</div>
         <div class="how-d">같은 재료로 만든 두 가지. 마지막 한 번의 선택은 언제나 손님 몫입니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 대표 제품 — 밸런스 박스 (크림) ══════════════ -->
+<section class="sec" id="box">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Signature · 정기구독</div>
+      <h2 class="sec-title">밸런스 박스</h2>
+      <p class="lede">
+        고르지 않아도 도착하는 균형. 목요일 밤까지만 정해두면,
+        월요일 새벽에 한 주치 <span id="boxLede">다섯</span> 끼가 문 앞에 놓입니다.
+      </p>
+    </div>
+
+    <div class="box-grid">
+      <div class="box-card">
+        <div class="box-top">
+          <div>
+            <div class="box-name" id="boxName">밸런스 박스 · 주 5회</div>
+            <div class="box-sub">샐러드 · 또띠아랩 자유 구성</div>
+          </div>
+          <span class="badge badge-seed">BEST</span>
+        </div>
+
+        <div class="box-lid" id="boxLid" data-plan="5" aria-label="한 주 구성 미리보기">
+          <div class="lid-cell">🥗<span class="d">MON</span></div>
+          <div class="lid-cell">🌯<span class="d">TUE</span></div>
+          <div class="lid-cell">🥗<span class="d">WED</span></div>
+          <div class="lid-cell">🥗<span class="d">THU</span></div>
+          <div class="lid-cell">🌯<span class="d">FRI</span></div>
+        </div>
+
+        <div class="box-price">
+          <span class="p" id="boxPrice">₩42,900</span><span class="u" id="boxPerMeal">/ 주 · 한 끼 8,580원</span>
+        </div>
+        <p class="box-note">언제든 일시정지·해지 · 첫 주 무료 배송</p>
+
+        <div class="box-actions">
+          <a class="btn btn-primary" href="#roulette">이번 주 구성 짜기</a>
+          <a class="btn btn-secondary" href="#roulette">메뉴 전체 보기</a>
+        </div>
+      </div>
+
+      <div class="spec-list">
+        <div class="spec">
+          <div class="spec-ico">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+          </div>
+          <div>
+            <div class="spec-t">월요일 새벽 6시 도착</div>
+            <div class="spec-d">주말에 손질하고 새벽에 실어 보냅니다. 출근 전 냉장고에 넣어두시면 금요일까지 그대로예요.</div>
+          </div>
+        </div>
+        <div class="spec">
+          <div class="spec-ico">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M9.5 15.5l1.8 1.8 3.4-3.6"/></svg>
+          </div>
+          <div>
+            <div class="spec-t">목요일 밤 11시까지 수정</div>
+            <div class="spec-d">마음이 바뀌면 그때까지 몇 번이든 바꿀 수 있어요. 이번 주가 바쁘면 한 주 쉬어가도 됩니다.</div>
+          </div>
+        </div>
+        <div class="spec">
+          <div class="spec-ico">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.4-7 10-7 10z"/></svg>
+          </div>
+          <div>
+            <div class="spec-t">칼로리 · 단백질 · 식이섬유 전량 공개</div>
+            <div class="spec-d">"건강한"이라고 쓰는 대신 숫자를 적습니다. 포장 뒷면과 홈페이지 수치가 같아요.</div>
+          </div>
+        </div>
+        <div class="spec">
+          <div class="spec-ico">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0111 6h1a5 5 0 015 5v9"/><path d="M12 20V9"/><path d="M17 4c0 2-1.4 3.5-3.4 3.5C13.6 5.6 15 4 17 4z"/></svg>
+          </div>
+          <div>
+            <div class="spec-t">한 주에 서로 다른 채소 <span id="boxVariety">5</span>종</div>
+            <div class="spec-d">같은 채소가 두 번 들어가지 않도록 짭니다. 다양하게 먹는 것이 가장 확실한 균형이니까요.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 배송 리듬 -->
+    <div class="timeline">
+      <div class="sub-eyebrow eyebrow" style="margin-bottom:20px">Delivery Rhythm</div>
+      <div class="tl-track">
+        <div class="tl-step is-now">
+          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg></div>
+          <div class="tl-when">Thu 23:00</div>
+          <div class="tl-what">구성 마감</div>
+          <div class="tl-desc">그때까지 자유롭게 수정</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 20V10.5a5.5 5.5 0 0111 0V20"/><path d="M12 5V3"/></svg></div>
+          <div class="tl-when">Fri – Sun</div>
+          <div class="tl-what">소싱 · 조리</div>
+          <div class="tl-desc">산지에서 받아 새벽에 손질</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></div>
+          <div class="tl-when">Mon 06:00</div>
+          <div class="tl-what">문 앞 도착</div>
+          <div class="tl-desc">출근 전 냉장고로</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5z"/><path d="M5 11h14"/><path d="M9 7.5v0M9 15v0"/></svg></div>
+          <div class="tl-when" id="tlEat">Mon – Fri</div>
+          <div class="tl-what">꺼내서 바로</div>
+          <div class="tl-desc">데울 것만 3분, 나머지는 그대로</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 박스 안 메뉴 -->
+    <div class="menu-strip">
+      <div class="mini">
+        <div class="mini-top">🥗<span class="badge badge-solid">BEST</span></div>
+        <div class="mini-body"><div class="mini-n">아보카도 콥샐러드</div><div class="mini-s">420kcal · 단백질 23g · 식이섬유 8g</div></div>
+      </div>
+      <div class="mini">
+        <div class="mini-top">🌯<span class="badge badge-tint">NEW</span></div>
+        <div class="mini-body"><div class="mini-n">멕시칸 콘 치킨랩</div><div class="mini-s">430kcal · 단백질 28g · 식이섬유 7g</div></div>
+      </div>
+      <div class="mini">
+        <div class="mini-top">🥗</div>
+        <div class="mini-body"><div class="mini-n">브로콜리 두부 샐러드</div><div class="mini-s">300kcal · 단백질 22g · 식이섬유 9g</div></div>
+      </div>
+      <div class="mini">
+        <div class="mini-top">🌯</div>
+        <div class="mini-body"><div class="mini-n">고구마 닭가슴살랩</div><div class="mini-s">420kcal · 단백질 30g · 식이섬유 6g</div></div>
       </div>
     </div>
   </div>
@@ -1188,10 +1222,16 @@ var VEGS = [
     wrap: { n:'고구마 닭가슴살랩',    kcal:420, p:30, f:6 } }
 ];
 
-var DAYS   = ['MON','TUE','WED','THU','FRI'];
-var DAYS_KR= ['월','화','수','목','금'];
-var DAYS_FULL = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY'];
-var STORE = 'sb-veggie-week-v1';
+var DAYS   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+var DAYS_KR= ['월','화','수','목','금','토','일'];
+var DAYS_FULL = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'];
+
+/* 배송 플랜 — 주 5일(평일) / 주 7일(주말 포함) */
+var PLANS = {
+  5:{ days:5, price:42900, perMeal:8580, label:'주 5회' },
+  7:{ days:7, price:57900, perMeal:8271, label:'주 7회' }
+};
+var STORE = 'sb-veggie-week-v2';
 
 /* 받침에 따라 조사를 고릅니다 — '당근로'가 아니라 '당근으로' */
 function batchim(word){
@@ -1204,7 +1244,8 @@ function josaEul(word){  var b = batchim(word); return word + (b > 0 ? '을' : '
 var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- 상태 ---------- */
-var week = [null,null,null,null,null];   // { v:벡인덱스, t:'salad'|'wrap' }
+var week = [null,null,null,null,null,null,null];  // { v:채소인덱스, t:'salad'|'wrap' } × 7
+var plan = 5;                                     // 5 또는 7
 var activeDay = 0;
 var pendingVeg = null;
 var spinning = false;
@@ -1214,19 +1255,27 @@ function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 function later(fn, ms){ var id = setTimeout(fn, ms); timers.push(id); return id; }
 
 /* ---------- 저장 ---------- */
+function normalize(list){
+  var out = [null,null,null,null,null,null,null];
+  if(!Array.isArray(list)) return out;
+  for(var i=0;i<7 && i<list.length;i++){
+    var x = list[i];
+    if(x && typeof x.v === 'number' && VEGS[x.v]) out[i] = { v:x.v, t: x.t === 'wrap' ? 'wrap' : 'salad' };
+  }
+  return out;
+}
 function save(){
-  try { localStorage.setItem(STORE, JSON.stringify(week)); } catch(e){}
+  try { localStorage.setItem(STORE, JSON.stringify({ plan:plan, days:week })); } catch(e){}
 }
 function load(){
   try {
     var raw = localStorage.getItem(STORE);
     if(!raw) return;
     var d = JSON.parse(raw);
-    if(Array.isArray(d) && d.length === 5){
-      week = d.map(function(x){
-        if(!x || typeof x.v !== 'number' || !VEGS[x.v]) return null;
-        return { v:x.v, t: x.t === 'wrap' ? 'wrap' : 'salad' };
-      });
+    if(Array.isArray(d)){ week = normalize(d); return; }   // 구버전
+    if(d && typeof d === 'object'){
+      plan = (d.plan === 7) ? 7 : 5;
+      week = normalize(d.days);
     }
   } catch(e){}
 }
@@ -1240,12 +1289,13 @@ var daysEl=$('days'), backdrop=$('backdrop'), toastEl=$('toast'), reportEl=$('re
    ============================================================ */
 function renderDays(){
   daysEl.innerHTML = '';
-  for(var i=0;i<5;i++){
+  daysEl.setAttribute('data-plan', plan);
+  for(var i=0;i<plan;i++){
     (function(i){
       var slot = week[i];
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'day' + (slot ? ' filled' : '');
+      b.className = 'day' + (slot ? ' filled' : '') + (i >= 5 ? ' weekend' : '');
       b.setAttribute('aria-label',
         DAYS_KR[i] + '요일 ' + (slot ? VEGS[slot.v].kr + ' ' + VEGS[slot.v][slot.t].n + ', 다시 고르기' : '비어 있음, 채소 룰렛 돌리기'));
 
@@ -1270,7 +1320,7 @@ function renderDays(){
 
 function totals(){
   var t = { n:0, kcal:0, p:0, f:0, vegs:[], salad:0, wrap:0 };
-  week.forEach(function(s){
+  week.slice(0, plan).forEach(function(s){
     if(!s) return;
     var m = VEGS[s.v][s.t];
     t.n++; t.kcal += m.kcal; t.p += m.p; t.f += m.f;
@@ -1282,23 +1332,25 @@ function totals(){
 
 function renderTotals(){
   var t = totals();
-  $('tCount').textContent   = t.n + '/5';
+  $('tCount').textContent   = t.n + '/' + plan;
   $('tKcal').textContent    = t.kcal.toLocaleString();
   $('tProtein').textContent = t.p + 'g';
   $('tFiber').textContent   = t.f + 'g';
-  $('weekBar').style.width  = (t.n/5*100) + '%';
+  $('weekBar').style.width  = (t.n/plan*100) + '%';
   renderReport(t);
+  renderBox(t);
 }
 
 function renderReport(t){
-  if(t.n < 5){ reportEl.hidden = true; reportEl.innerHTML=''; return; }
+  if(t.n < plan){ reportEl.hidden = true; reportEl.innerHTML=''; return; }
   reportEl.hidden = false;
   reportEl.className = 'report';
   reportEl.innerHTML =
     '<div class="report-grid">'
     + '<div>'
       + '<h3>🎉 한 주가 완성됐어요</h3>'
-      + '<p class="rp">서로 다른 채소 다섯 가지로 다섯 끼를 채웠습니다. 이대로 목요일 밤 11시까지 두시면, 월요일 새벽에 문 앞으로 도착해요.</p>'
+      + '<p class="rp">서로 다른 채소 ' + plan + '가지로 ' + plan + '끼를 채웠습니다. 이대로 목요일 밤 11시까지 두시면, 월요일 새벽에 문 앞으로 도착해요'
+        + (plan === 7 ? ' (주말 2끼는 금요일 새벽에 한 번 더 나눠 보냅니다).' : '.') + '</p>'
       + '<div class="report-stats">'
         + '<div class="rs"><div class="v">'+t.kcal.toLocaleString()+'</div><div class="k">총 칼로리 (kcal)</div></div>'
         + '<div class="rs"><div class="v">'+t.p+'g</div><div class="k">단백질</div></div>'
@@ -1306,11 +1358,55 @@ function renderReport(t){
         + '<div class="rs"><div class="v">'+t.salad+' : '+t.wrap+'</div><div class="k">샐러드 : 또띠아랩</div></div>'
       + '</div>'
       + '<div class="report-vegs">' + t.vegs.map(function(e){ return '<span>'+e+'</span>'; }).join('') + '</div>'
-      + '<a class="btn btn-on-green btn-lg" href="#box">이 구성으로 밸런스 박스 받기</a>'
+      + '<a class="btn btn-primary btn-lg" href="#box">이 구성으로 밸런스 박스 받기</a>'
     + '</div>'
     + '<img class="mascot report-mascot" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" aria-hidden="true">'
     + '</div>';
   if(window.__sbWatchMascots) window.__sbWatchMascots(reportEl);
+}
+
+/* ============================================================
+   대표 제품 카드 — 룰렛에서 고른 구성이 그대로 반영됩니다
+   ============================================================ */
+function renderBox(t){
+  var cfg = PLANS[plan];
+  var name = $('boxName'), lid = $('boxLid'), price = $('boxPrice'), per = $('boxPerMeal');
+  if(name)  name.textContent  = '밸런스 박스 · ' + cfg.label;
+  var lede = $('boxLede'), variety = $('boxVariety'), tlEat = $('tlEat');
+  if(lede)    lede.textContent    = (plan === 7 ? '일곱' : '다섯');
+  if(variety) variety.textContent = String(plan);
+  if(tlEat)   tlEat.textContent   = (plan === 7 ? 'Mon – Sun' : 'Mon – Fri');
+  if(price) price.textContent = '₩' + cfg.price.toLocaleString();
+  if(per)   per.textContent   = '/ 주 · 한 끼 ' + cfg.perMeal.toLocaleString() + '원';
+  if(!lid) return;
+  lid.setAttribute('data-plan', plan);
+  var DEFAULT_ICONS = ['🥗','🌯','🥗','🥗','🌯','🥗','🌯'];
+  var html = '';
+  for(var i=0;i<plan;i++){
+    var slot = week[i];
+    var icon = slot ? (slot.t === 'salad' ? '🥗' : '🌯') : DEFAULT_ICONS[i];
+    html += '<div class="lid-cell">' + icon + '<span class="d">' + DAYS[i] + '</span></div>';
+  }
+  lid.innerHTML = html;
+}
+
+function setPlan(next){
+  if(plan === next) return;
+  var dropped = week.slice(next).filter(Boolean).length;   // 7 → 5 로 줄일 때
+  plan = next;
+  save();
+  Array.prototype.slice.call(document.querySelectorAll('.plan-opt')).forEach(function(b){
+    b.classList.toggle('is-on', Number(b.getAttribute('data-plan')) === plan);
+  });
+  renderDays();
+  renderTotals();
+  if(plan === 7){
+    toast('🗓️ 주말까지 7일로 바꿨어요 · 토·일 두 칸이 더 생겼습니다');
+  } else if(dropped > 0){
+    toast('🗓️ 평일 5일로 바꿨어요 · 주말에 담아둔 ' + dropped + '끼는 그대로 보관해둘게요');
+  } else {
+    toast('🗓️ 평일 5일로 바꿨어요');
+  }
 }
 
 /* ============================================================
@@ -1334,7 +1430,7 @@ var slotEls = [];
 
 function availableVegs(dayIdx){
   var used = {};
-  week.forEach(function(s,i){ if(s && i !== dayIdx) used[s.v] = true; });
+  week.slice(0, plan).forEach(function(s,i){ if(s && i !== dayIdx) used[s.v] = true; });
   var out = [];
   for(var i=0;i<VEGS.length;i++) if(!used[i]) out.push(i);
   return out;
@@ -1589,7 +1685,7 @@ function confirmPick(type){
   var cell = daysEl.children[activeDay];
   if(cell){ cell.classList.add('pop'); later(function(){ cell.classList.remove('pop'); }, 460); }
   toast('🌿 ' + DAYS_KR[activeDay] + '요일에 ' + josaEul(m.n) + ' 담았어요 · ' + m.kcal + 'kcal');
-  if(totals().n === 5){
+  if(totals().n === plan){
     later(function(){
       var r = document.getElementById('report');
       if(r && !r.hidden) r.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block:'center' });
@@ -1619,9 +1715,12 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'Escape' && !backdrop.hidden) closeBench();
 });
 $('resetWeek').addEventListener('click', function(){
-  week = [null,null,null,null,null];
+  week = [null,null,null,null,null,null,null];
   save(); renderDays(); renderTotals();
   toast('🔄 이번 주를 비웠어요. 처음부터 다시 채워보세요');
+});
+Array.prototype.slice.call(document.querySelectorAll('.plan-opt')).forEach(function(b){
+  b.addEventListener('click', function(){ setPlan(Number(b.getAttribute('data-plan'))); });
 });
 
 /* ---------- 마스코트 이미지가 아직 없으면 조용히 감춤 ---------- */
@@ -1645,6 +1744,9 @@ window.__sbWatchMascots = watchMascots;
 
 /* ---------- 시작 ---------- */
 load();
+Array.prototype.slice.call(document.querySelectorAll('.plan-opt')).forEach(function(b){
+  b.classList.toggle('is-on', Number(b.getAttribute('data-plan')) === plan);
+});
 renderDays();
 renderTotals();
 })();
