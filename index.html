@@ -215,15 +215,17 @@ h2.sec-title.on-green{color:var(--sunshine)}
   position:absolute;display:flex;align-items:center;justify-content:center;
   background:var(--white);border:1px solid var(--border);border-radius:var(--r-pill);
   box-shadow:var(--sh-sm);font-size:26px;width:64px;height:64px;
+  transform:translate(-50%,-50%);
   animation:floaty 6s var(--ease-out-soft) infinite;
 }
 /* 하단 중앙은 태그 자리라 비워둡니다 */
-.art-chip.c1{top:3%;left:18%;animation-delay:0s}
-.art-chip.c2{top:16%;right:1%;animation-delay:.9s}
-.art-chip.c3{bottom:21%;right:1%;animation-delay:1.8s}
-.art-chip.c4{bottom:21%;left:1%;animation-delay:2.7s}
-.art-chip.c5{top:38%;left:-5%;animation-delay:3.6s}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+/* 원 둘레에 72°씩 균등 배치. 아래 중앙(180°)은 태그 자리라 비워둡니다 */
+.art-chip.c1{left:50.0%;top:4.0%;animation-delay:0.0s}
+.art-chip.c2{left:93.7%;top:35.8%;animation-delay:0.9s}
+.art-chip.c3{left:77.0%;top:87.2%;animation-delay:1.8s}
+.art-chip.c4{left:23.0%;top:87.2%;animation-delay:2.7s}
+.art-chip.c5{left:6.3%;top:35.8%;animation-delay:3.6s}
+@keyframes floaty{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,calc(-50% - 9px))}}
 .art-tag{
   position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
   background:var(--vital);color:var(--sunshine);border-radius:var(--r-pill);
@@ -233,6 +235,14 @@ h2.sec-title.on-green{color:var(--sunshine)}
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr}
   .voice{font-size:var(--text-sm)}
+  /* 좁은 화면에서는 칩과 태그를 줄이고 반지름을 키워 아래 중앙을 넉넉히 비웁니다 */
+  .art-chip{width:52px;height:52px;font-size:22px}
+  .art-tag{font-size:11px;padding:7px 14px}
+  .art-chip.c1{left:50.0%;top:-1.0%}
+  .art-chip.c2{left:98.5%;top:34.2%}
+  .art-chip.c3{left:80.0%;top:91.3%}
+  .art-chip.c4{left:20.0%;top:91.3%}
+  .art-chip.c5{left:1.5%;top:34.2%}
   .hero-art{max-width:340px;order:-1}
 }
 
