@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스윗밸런스 자사몰 홈페이지 — 원페이저</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vital:#00614E; --harmony:#007C5E; --sunshine:#FDFFE6; --seed:#84BA45;
+  --ink:#1B2A24; --char:#3A4742; --slate:#6B7571; --mist:#C8CEC9;
+  --paper:#F6F4E8; --white:#fff;
+  --border:rgba(0,97,78,.18); --divider:rgba(0,97,78,.09);
+  --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+  --sh-sm:0 2px 6px rgba(27,42,36,.08); --sh-md:0 8px 24px rgba(27,42,36,.10);
+  --en:'Montserrat',sans-serif;
+  --kr:'Pretendard','Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sunshine);color:var(--ink);font-family:var(--kr);line-height:1.7;font-size:15px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.eyebrow{font-family:var(--en);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--vital);margin-bottom:10px}
+h1,h2,h3{letter-spacing:-.02em;line-height:1.25;word-break:keep-all}
+
+/* 표지 */
+.cover{background:var(--vital);color:var(--sunshine);padding:64px 0 56px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;top:-120px;right:-90px;width:340px;height:340px;border-radius:50%;background:rgba(132,186,69,.16)}
+.cover .eyebrow{color:rgba(253,255,230,.6);position:relative}
+.cover h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;margin-bottom:14px;position:relative}
+.cover p{font-size:17px;color:rgba(253,255,230,.8);max-width:62ch;position:relative}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:28px;position:relative}
+.meta div span{display:block}
+.meta .k{font-family:var(--en);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(253,255,230,.5);margin-bottom:3px}
+.meta .v{font-size:14px;font-weight:600;color:rgba(253,255,230,.92)}
+
+section{padding:52px 0;border-bottom:1px solid var(--divider)}
+section:last-of-type{border-bottom:none}
+h2{font-size:26px;margin-bottom:8px}
+.lede{color:var(--char);margin-bottom:28px;max-width:70ch}
+
+/* 화면 구성 */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.step{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-sm);position:relative}
+.step .n{width:26px;height:26px;border-radius:50%;background:var(--vital);color:var(--sunshine);display:flex;align-items:center;justify-content:center;font-family:var(--en);font-weight:700;font-size:12px;margin-bottom:12px}
+.step.dark{background:var(--vital);border-color:transparent}
+.step.dark .n{background:var(--sunshine);color:var(--vital)}
+.step.dark h3,.step.dark p{color:var(--sunshine)}
+.step.dark p{color:rgba(253,255,230,.72)}
+.step h3{font-size:15px;margin-bottom:6px}
+.step p{font-size:12.5px;color:var(--char);line-height:1.65}
+.tone{font-family:var(--en);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:10px;display:block}
+.step.dark .tone{color:rgba(253,255,230,.5)}
+
+/* 주인공 기능 */
+.hero-box{background:var(--vital);color:var(--sunshine);border-radius:var(--r-xl);padding:32px 34px;margin-bottom:22px;position:relative;overflow:hidden}
+.hero-box::after{content:"";position:absolute;bottom:-90px;left:-60px;width:260px;height:260px;border-radius:50%;background:rgba(132,186,69,.15)}
+.hero-box h3{font-size:22px;margin-bottom:10px;position:relative}
+.hero-box p{color:rgba(253,255,230,.82);max-width:64ch;position:relative}
+.stages{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stage{background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 14px;box-shadow:var(--sh-sm)}
+.stage .ic{font-size:26px;line-height:1;margin-bottom:10px}
+.stage b{display:block;font-size:13px;margin-bottom:5px;color:var(--ink)}
+.stage span{font-size:11.5px;color:var(--char);line-height:1.6}
+
+.note{margin-top:20px;background:rgba(132,186,69,.1);border:1.5px solid rgba(132,186,69,.4);border-radius:var(--r-md);padding:16px 18px;font-size:13px;color:var(--char);line-height:1.7}
+.note b{color:#3d7a18}
+
+/* 인터뷰 반영 */
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+th{text-align:left;padding:12px 14px;background:rgba(0,97,78,.06);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--vital)}
+td{padding:13px 14px;border-top:1px solid var(--divider);color:var(--char);vertical-align:top;word-break:keep-all}
+td.q{width:15%;font-weight:600;color:var(--ink)}
+td.a{width:34%;color:var(--vital);font-weight:500}
+tr:first-child td{border-top:none}
+
+/* 데이터 출처 */
+.src{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.src div{background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:18px}
+.src b{display:block;font-size:13px;color:var(--ink);margin-bottom:6px}
+.src p{font-size:12px;color:var(--char);line-height:1.65}
+
+/* 파일 */
+.files{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-md);padding:20px 22px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--char);line-height:1.9}
+.files b{color:var(--vital)}
+
+footer{background:var(--vital);color:rgba(253,255,230,.7);padding:26px 0;font-size:12px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer em{font-style:italic;color:rgba(253,255,230,.5)}
+
+@media(max-width:860px){
+  .flow,.stages,.src{grid-template-columns:1fr 1fr}
+  table,thead,tbody,th,td,tr{display:block}
+  thead{display:none}
+  td{border-top:none;padding:4px 14px}
+  tr{border-top:1px solid var(--divider);padding:12px 0}
+  td.q{width:auto}td.a{width:auto}
+}
+@media(max-width:520px){ .flow,.stages,.src{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="wrap">
+    <div class="eyebrow">Sweet Balance · Homepage One-pager</div>
+    <h1>잘 먹고 싶은데,<br>어렵게 먹기는 싫으니까.</h1>
+    <p>건강과 편의를 동시에 챙기고 싶은 20~40대 직장인 다이어터를 위한 스윗밸런스 자사몰 홈페이지입니다.
+       인터뷰 다섯 문답에서 출발해, 재료 룰렛으로 한 주 식단을 미리 채우는 페이지로 만들었습니다.</p>
+    <div class="meta">
+      <div><span class="k">결과물</span><span class="v">index.html 한 파일</span></div>
+      <div><span class="k">주인공 기능</span><span class="v">이번 주 재료 룰렛 캘린더</span></div>
+      <div><span class="k">디자인 기준</span><span class="v">Brand Design System Manual 2025.07.25</span></div>
+      <div><span class="k">제품 데이터</span><span class="v">실제 제품 14종 · 사내 자료 기준</span></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">01 — Screens</div>
+    <h2>화면 구성</h2>
+    <p class="lede">크림과 딥그린을 번갈아 배치해 스크롤에 리듬을 줬습니다.
+      주인공인 재료 룰렛은 딥그린 위에 흰 카드를 띄워, 앞뒤 섹션 사이에서 환하게 떠 보이도록 했습니다.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>히어로</h3>
+        <p>헤드라인이 손님의 속마음을 대신 말하고, 말풍선 두 개가 그것을 구체화합니다.
+           바로 아래에서 밸런스 박스가 답이라고 짚어줍니다.</p>
+        <span class="tone">Cream</span>
+      </div>
+      <div class="step dark">
+        <div class="n">2</div>
+        <h3>재료 룰렛 캘린더 ⭐</h3>
+        <p>이 페이지의 주인공. 요일 칸을 누르면 재료가 뽑히고, 주방이 뚝딱뚝딱 움직인 뒤
+           실제 메뉴 두 가지 중에서 고릅니다.</p>
+        <span class="tone">Deep Green</span>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>밸런스 박스</h3>
+        <p>대표 제품. 주 5회·7회 가격과 배송 리듬(목요일 밤 마감 → 월요일 새벽 도착),
+           박스에 담기는 실제 메뉴 6종.</p>
+        <span class="tone">Cream</span>
+      </div>
+      <div class="step dark">
+        <div class="n">4</div>
+        <h3>브랜드 이야기</h3>
+        <p>미션과 슬로건, 브랜드 성격 세 가지(Warm · Fresh · Honest).
+           매뉴얼의 문구를 그대로 옮겼습니다.</p>
+        <span class="tone">Deep Green</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">02 — Star Feature</div>
+    <h2>이번 주 재료 룰렛 캘린더</h2>
+    <p class="lede">“고르는 건 어렵고, 잘 먹는 건 어려워서” — 어려운 쪽(수십 개 메뉴 중 고르기)은 룰렛이 없애주고,
+      마지막 한 번의 선택권은 손님에게 남겨두는 구조입니다.</p>
+
+    <div class="hero-box">
+      <h3>🌱 요일 칸을 누르면 시작됩니다</h3>
+      <p>월~금 다섯 칸, 또는 주말까지 일곱 칸. 같은 재료는 한 주에 두 번 나오지 않아서,
+        칸을 다 채우면 서로 다른 재료를 자연스럽게 만나게 됩니다. 다양하게 먹는 것이 가장 확실한 균형이니까요.</p>
+    </div>
+
+    <div class="stages">
+      <div class="stage"><div class="ic">🎲</div><b>1. 룰렛</b><span>여덟 재료가 원을 돌다 하나에서 멈춥니다. 이미 나온 재료는 빠집니다.</span></div>
+      <div class="stage"><div class="ic">💡</div><b>2. 재료 공개</b><span>뽑힌 재료와 함께 영양 한 줄 지식을 보여줍니다.</span></div>
+      <div class="stage"><div class="ic">🍳</div><b>3. 요리 중</b><span>재료가 볼에 톡톡 떨어지고 반짝이가 튑니다. 모여라 동물의 숲 작업대 같은 리듬.</span></div>
+      <div class="stage"><div class="ic">🥗</div><b>4. 선택</b><span>실제 제품 사진 두 장 — 가볍게 / 든든하게 중 하나를 고릅니다.</span></div>
+      <div class="stage"><div class="ic">🎉</div><b>5. 주간 리포트</b><span>칸을 다 채우면 총 칼로리·단백질·당류와 만난 재료가 정리됩니다.</span></div>
+    </div>
+
+    <div class="note">
+      <b>배송 타이밍을 고려한 설계</b> — “오늘 뭐 먹지”가 아니라 “한 주를 미리 채운다”로 잡았습니다.
+      정기구독은 목요일 밤에 마감해 월요일 새벽에 도착하기 때문에, 당일 선택은 배송 리듬과 맞지 않습니다.
+      화면에도 마감 시각과 도착일을 명시해 손님이 “미리 정하는 것”임을 알 수 있게 했습니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">03 — Interview</div>
+    <h2>인터뷰 답변이 어디에 들어갔는지</h2>
+    <p class="lede">다섯 개 질문에 주신 답변이 페이지의 어느 부분이 되었는지 정리했습니다.</p>
+    <table>
+      <thead><tr><th>질문</th><th>답변</th><th>페이지에 반영된 곳</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="q">1. 손님</td>
+          <td class="a">건강과 편의를 동시에 추구하는 20~40대 직장인 다이어터. 칼로리 표기 필수, 빨리 먹고 개인 시간을 갖고 싶어함</td>
+          <td>모든 제품 카드에 칼로리·단백질·당류를 노출. 히어로 말풍선 두 줄이 다이어터(“닭가슴살만 먹고 싶진 않아요”)와 직장인(“점심시간을 고민하다 끝내고 싶진 않아요”)의 속마음을 각각 대변</td>
+        </tr>
+        <tr>
+          <td class="q">2. 첫 문장</td>
+          <td class="a">“잘 먹고 싶은데, 어렵게 먹기는 싫으니까.”</td>
+          <td>히어로 헤드라인. ‘어렵게 먹기는 싫으니까’에 Seed Green 하이라이트. 이 문장이 룰렛 기능의 설계 원칙이 되었습니다 — 어려운 건 룰렛이, 선택은 손님이</td>
+        </tr>
+        <tr>
+          <td class="q">3. 대표 제품</td>
+          <td class="a">정기구독 밸런스 박스</td>
+          <td>세 번째 섹션 전체. 단품이 아니라 약속이라 배송 리듬 타임라인(목 23시 마감 → 월 6시 도착)과 박스에 담기는 실제 메뉴 6종을 함께 보여줍니다</td>
+        </tr>
+        <tr>
+          <td class="q">4. 아이디어 기능</td>
+          <td class="a">습관 캘린더 + 재료 룰렛 + 영양 한 줄 지식, 월~금 하나씩 선택하고 다시 고를 수 있게. 재료를 고르면 요리하는 액션을 게임처럼</td>
+          <td>주인공 기능 전체. 캘린더 + 룰렛 + 뚝딱뚝딱 요리 애니메이션 + 영양 한 줄 + 다시 돌리기 + 주간 리포트. 주말까지 챙기고 싶다는 의견을 받아 주 5일/7일 선택도 추가</td>
+        </tr>
+        <tr>
+          <td class="q">5. 분위기</td>
+          <td class="a">C안 — 크림과 딥그린을 번갈아 배치해 스크롤에 리듬 주기</td>
+          <td>섹션별 배경 교차. 룰렛 섹션을 딥그린으로 두어 흰 캘린더 카드가 라이트박스처럼 떠 보이게 했습니다</td>
+        </tr>
+        <tr>
+          <td class="q">＋ 마스코트</td>
+          <td class="a">회사 마스코트를 과하지 않게 활용</td>
+          <td>스위니 4종을 히어로·밸런스 박스 카드·주간 리포트 축하·푸터 네 곳에만 배치. 승인된 소스 폴더에서 가져왔고, ‘사용X’ 폴더의 컷은 제외했습니다</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">04 — Data</div>
+    <h2>숫자는 전부 실제 자료에서</h2>
+    <p class="lede">디자인 시스템의 <b>“Specific over abstract — 숫자가 곧 신뢰”</b> 원칙에 따라,
+      화면의 모든 영양성분은 사내 자료에서 확인한 값을 그대로 옮겼습니다. 임의로 만든 숫자는 없습니다.</p>
+    <div class="src">
+      <div><b>NB / NPB 제품 소개서</b><p>제품명·중량·칼로리·단백질·당류. 룰렛과 박스 메뉴의 주 출처입니다.</p></div>
+      <div><b>상품 정보제공 고시자료</b><p>제품별 총 내용량 기준 영양성분. 포장 뒷면에 적힌 것과 같은 값입니다.</p></div>
+      <div><b>제품 촬영 누끼 이미지</b><p>배경을 제거한 실제 제품 사진 14장. 300px WebP로 최적화해 총 188KB.</p></div>
+    </div>
+    <div class="note">
+      <b>확인이 필요한 부분</b> — 룰렛에 쓰인 제품은 사내 자료에서 사진과 영양성분이 모두 확인되는 것으로 골랐습니다.
+      자사몰 실제 판매 라인업과 다른 SKU가 섞여 있을 수 있으니, 공개 전 담당자 확인을 권합니다.
+      미니버거는 사진 매칭이 되지 않아 메뉴 섹션 하단에 수치만 표기했습니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">05 — Files</div>
+    <h2>변경 파일</h2>
+    <div class="files">
+      <b>index.html</b> &nbsp;— 홈페이지 본체. HTML·CSS·JS와 로고·마스코트·제품 사진을 모두 담은 한 파일 (454KB)<br>
+      <b>assets/mascot-basket.png</b> &nbsp;— 히어로용 스위니 (채소 바구니)<br>
+      <b>assets/mascot-cup.png</b> &nbsp;— 밸런스 박스 카드용 스위니 (샐러드컵)<br>
+      <b>assets/mascot-jump.png</b> &nbsp;— 주간 리포트용 스위니 (포크 들고 점프)<br>
+      <b>assets/mascot-run.png</b> &nbsp;— 푸터용 스위니 (선글라스 달리기)<br>
+      <b>assets/README.md</b> &nbsp;— 마스코트 교체 방법 안내<br>
+      <b>docs/homepage-onepager.html</b> &nbsp;— 이 문서
+    </div>
+    <div class="note">
+      외부에서 불러오는 이미지가 하나도 없습니다. 사진은 모두 파일 안에 들어 있어
+      인터넷 없이 열어도 그대로 보이고, 서버 왕복이 없어 로딩이 빠릅니다.
+      제품이 늘어나면 그때 <code>assets/</code>로 분리하는 편이 낫습니다.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SWB Corporation</span>
+    <em>Eat fresh, be your Best.</em>
+    <span>스윗밸런스 자사몰 홈페이지 원페이저</span>
+  </div>
+</footer>
+
+</body>
+</html>
