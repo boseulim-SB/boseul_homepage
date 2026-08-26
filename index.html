@@ -1265,8 +1265,6 @@ var PLANS = {
   5:{ days:5, price:42900, perMeal:8580, label:'주 5회' },
   7:{ days:7, price:57900, perMeal:8271, label:'주 7회' }
 };
-var STORE = 'sb-ingredient-week-v3';
-
 /* 받침에 따라 조사를 고릅니다 — '당근로'가 아니라 '당근으로' */
 function batchim(word){
   var c = word.charCodeAt(word.length - 1) - 0xAC00;
@@ -1288,29 +1286,15 @@ var timers = [];
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 function later(fn, ms){ var id = setTimeout(fn, ms); timers.push(id); return id; }
 
-/* ---------- 저장 ---------- */
-function normalize(list){
-  var out = [null,null,null,null,null,null,null];
-  if(!Array.isArray(list)) return out;
-  for(var i=0;i<7 && i<list.length;i++){
-    var x = list[i];
-    if(x && typeof x.v === 'number' && ING[x.v]) out[i] = { v:x.v, t: x.t === 'hearty' ? 'hearty' : 'light' };
-  }
-  return out;
-}
-function save(){
-  try { localStorage.setItem(STORE, JSON.stringify({ plan:plan, days:week })); } catch(e){}
-}
-function load(){
+/* ---------- 저장하지 않습니다 ----------
+   여러 사람이 드나드는 페이지라, 새로 열 때마다 빈 한 주에서
+   다시 룰렛을 돌릴 수 있어야 합니다. 진행 상황은 메모리에만 두고
+   예전 버전이 브라우저에 남겨둔 기록은 지웁니다.                */
+function save(){ /* 의도적으로 저장하지 않음 */ }
+function clearLegacy(){
   try {
-    var raw = localStorage.getItem(STORE);
-    if(!raw) return;
-    var d = JSON.parse(raw);
-    if(Array.isArray(d)){ week = normalize(d); return; }   // 구버전
-    if(d && typeof d === 'object'){
-      plan = (d.plan === 7) ? 7 : 5;
-      week = normalize(d.days);
-    }
+    ['sb-veggie-week-v1','sb-veggie-week-v2','sb-ingredient-week-v3']
+      .forEach(function(k){ localStorage.removeItem(k); });
   } catch(e){}
 }
 
@@ -1806,7 +1790,7 @@ watchMascots(document);
 window.__sbWatchMascots = watchMascots;
 
 /* ---------- 시작 ---------- */
-load();
+clearLegacy();
 Array.prototype.slice.call(document.querySelectorAll('.plan-opt')).forEach(function(b){
   b.classList.toggle('is-on', Number(b.getAttribute('data-plan')) === plan);
 });
