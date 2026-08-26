@@ -169,7 +169,17 @@ h2.sec-title.on-green{color:var(--sunshine)}
   content:"";position:absolute;left:-2px;right:-2px;bottom:.06em;height:.34em;
   background:rgba(132,186,69,.28);border-radius:var(--r-xs);z-index:-1;
 }
-.hero-sub{font-size:var(--text-lg);color:var(--char);line-height:1.75;margin-bottom:28px;max-width:46ch}
+/* 손님 목소리 — 말풍선 */
+.hero-voices{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;max-width:34em}
+.voice{
+  position:relative;font-size:var(--text-md);line-height:1.6;color:var(--char);
+  background:rgba(0,97,78,.05);border-left:3px solid rgba(132,186,69,.6);
+  border-radius:0 var(--r-md) var(--r-md) 0;padding:11px 18px 11px 16px;
+  word-break:keep-all;
+}
+.voice b{font-weight:700;color:var(--vital)}
+.hero-sub{font-size:var(--text-lg);color:var(--char);line-height:1.7;margin-bottom:28px;max-width:34em;word-break:keep-all}
+.hero-sub b{font-weight:700;color:var(--vital)}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
 .hero-stats{display:flex;gap:0;border-top:1px solid var(--divider);padding-top:20px;flex-wrap:wrap}
 .hero-stat{padding-right:28px;margin-right:28px;border-right:1px solid var(--divider)}
@@ -221,6 +231,7 @@ h2.sec-title.on-green{color:var(--sunshine)}
 }
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr}
+  .voice{font-size:var(--text-sm)}
   .hero-art{max-width:340px;order:-1}
 }
 
@@ -814,9 +825,12 @@ h2.sec-title.on-green{color:var(--sunshine)}
     <div>
       <div class="eyebrow">Sweet Balance · 정기구독</div>
       <h1>잘 먹고 싶은데,<br><span class="hl">어렵게 먹기는 싫으니까.</span></h1>
+      <div class="hero-voices">
+        <p class="voice">“다이어트는 하고 싶은데, <b>닭가슴살만</b> 먹고 싶진 않아요.”</p>
+        <p class="voice">“소중한 점심시간, <b>뭐 먹을지 고민하다</b> 끝내고 싶진 않아요.”</p>
+      </div>
       <p class="hero-sub">
-        칼로리·단백질 전부 적어뒀어요. 평일 5일도, 주말까지 7일도.<br>
-        점심마다 하던 고민은 30초로, 아낀 시간은 온전히 당신 몫으로.
+        <b>밸런스 박스</b>로 해결하세요!<br>룰렛을 돌리고, 일주일치 메뉴를 미리 담아보세요.
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary btn-lg" href="#roulette">
