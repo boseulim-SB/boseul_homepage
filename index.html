@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보슬의 홈페이지</title>
+  <style>
+    :root {
+      --bg: #f7f8f7;
+      --fg: #1c1f1e;
+      --muted: #5c6663;
+      --accent: #007C5E;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121514;
+        --fg: #f2f4f3;
+        --muted: #a3aeab;
+        --accent: #4ec3a1;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic",
+                   system-ui, -apple-system, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .accent { color: var(--accent); }
+    #today {
+      margin: 0;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>안녕하세요, <span class="accent">보슬</span>입니다</h1>
+  <p id="today">오늘 날짜를 불러오는 중…</p>
+
+  <script>
+    const now = new Date();
+    const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+    document.getElementById("today").textContent =
+      `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 (${weekdays[now.getDay()]})`;
+  </script>
+</body>
+</html>
